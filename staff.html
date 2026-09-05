@@ -6,7 +6,9 @@
   <title>Raise Your Hand | Staff Dashboard</title>
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -305,6 +307,7 @@
     <button id="loginButton" class="login-btn">Sign In</button>
 
     <div id="loginError" class="login-error"></div>
+
   </div>
 </section>
 
@@ -318,13 +321,17 @@
     </div>
 
     <div class="header-actions">
+
       <div class="count-box">
         Active: <span id="activeCount">0</span>
       </div>
 
-      <button id="signOutButton" class="signout-btn">Sign Out</button>
+      <button id="signOutButton" class="signout-btn">
+        Sign Out
+      </button>
 
       <div id="signedInUser" class="signed-in"></div>
+
     </div>
 
   </div>
@@ -378,6 +385,7 @@ import {
   orderBy,
   onSnapshot,
   doc,
+  getDoc,
   updateDoc,
   serverTimestamp
 }
@@ -405,7 +413,6 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-
 const loginView = document.getElementById("loginView");
 const dashboardView = document.getElementById("dashboardView");
 
@@ -428,6 +435,7 @@ const doneCount = document.getElementById("doneCount");
 const activeCount = document.getElementById("activeCount");
 
 let unsubscribeRequests = null;
+let currentStaffName = "";
 
 
 function escapeHtml(value = "") {
@@ -677,17 +685,11 @@ document.addEventListener("click", async (event) => {
 
   if (action === "claim") {
 
-    const staffName = prompt(
-      "Enter your name so the team knows who claimed this request:"
-    );
-
-    if (!staffName || !staffName.trim()) return;
-
     await updateDoc(
       doc(db, "requests", requestId),
       {
         status: "CLAIMED",
-        claimedBy: staffName.trim(),
+        claimedBy: currentStaffName,
         claimedAt: serverTimestamp()
       }
     );
@@ -707,15 +709,26 @@ document.addEventListener("click", async (event) => {
 });
 
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
 
   if (user) {
 
     loginView.classList.add("hidden");
     dashboardView.classList.remove("hidden");
 
+    const staffSnap = await getDoc(
+      doc(db, "staff", user.uid)
+    );
+
+    if (staffSnap.exists()) {
+      currentStaffName =
+        staffSnap.data().name || user.email;
+    } else {
+      currentStaffName = user.email;
+    }
+
     signedInUser.textContent =
-      `Signed in as ${user.email}`;
+      `Signed in as ${currentStaffName}`;
 
     startRequestListener();
 
@@ -723,6 +736,8 @@ onAuthStateChanged(auth, (user) => {
 
     dashboardView.classList.add("hidden");
     loginView.classList.remove("hidden");
+
+    currentStaffName = "";
 
     if (unsubscribeRequests) {
       unsubscribeRequests();
