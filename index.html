@@ -1,1 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Raise Your Hand | Acceleration Academies</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f7f8;
+      color: #222;
+    }
+
+    .top-bar {
+      height: 10px;
+      background: #00a6a6;
+    }
+
+    .page {
+      max-width: 520px;
+      margin: auto;
+      padding: 28px 20px 50px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .hand {
+      font-size: 60px;
+      margin-bottom: 5px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 32px;
+      color: #263238;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: #66757f;
+      line-height: 1.4;
+    }
+
+    .card {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.08);
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin: 18px 0 7px;
+    }
+
+    label:first-child {
+      margin-top: 0;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border: 1px solid #cfd8dc;
+      border-radius: 9px;
+      background: white;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 24px;
+      padding: 17px;
+      border: none;
+      border-radius: 10px;
+      background: #00a6a6;
+      color: white;
+      font-size: 19px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #008d8d;
+    }
+
+    .privacy {
+      text-align: center;
+      color: #7b8a8b;
+      font-size: 12px;
+      margin-top: 16px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 25px;
+      color: #66757f;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="top-bar"></div>
+
+  <main class="page">
+
+    <div class="header">
+      <div class="hand">✋</div>
+      <h1>Raise Your Hand</h1>
+
+      <div class="subtitle">
+        Need help? Let us know.<br>
+        A staff member will connect with you.
+      </div>
+    </div>
+
+    <div class="card">
+
+      <label for="studentName">Your Name</label>
+      <input
+        id="studentName"
+        type="text"
+        placeholder="First and last name"
+      >
+
+      <label for="helpType">What do you need help with?</label>
+      <select id="helpType">
+        <option value="">Choose one...</option>
+        <option>Class / Assignment Help</option>
+        <option>Testing</option>
+        <option>Technology / Chromebook</option>
+        <option>Graduation / Credits</option>
+        <option>Enrollment / Records</option>
+        <option>College / Career</option>
+        <option>Personal Support</option>
+        <option>Something Else</option>
+      </select>
+
+      <label for="location">Where are you?</label>
+      <select id="location">
+        <option value="">Choose one...</option>
+        <option>East Campus</option>
+        <option>North Campus</option>
+        <option>Hope Campus</option>
+        <option>Southeast Campus</option>
+        <option>Working Virtually</option>
+        <option>Other</option>
+      </select>
+
+      <label for="contactMethod">How should we connect with you?</label>
+      <select id="contactMethod">
+        <option value="">Choose one...</option>
+        <option>Come find me on campus</option>
+        <option>Text me</option>
+        <option>Call me</option>
+        <option>Email me</option>
+      </select>
+
+      <label for="details">Anything you'd like us to know?</label>
+      <textarea
+        id="details"
+        placeholder="Optional — tell us a little more about what you need."
+      ></textarea>
+
+      <button type="button">
+        ✋ Raise My Hand
+      </button>
+
+      <div class="privacy">
+        Your request will only be visible to staff.
+      </div>
+
+    </div>
+
+    <div class="footer">
+      Acceleration Academies • Student Support
+    </div>
+
+  </main>
+
+</body>
+</html>
