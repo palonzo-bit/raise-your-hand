@@ -28,6 +28,92 @@
       padding: 28px 20px 50px;
     }
 
+    .hidden {
+      display: none !important;
+    }
+
+    .login-wrap {
+      min-height: calc(100vh - 10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 20px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: 18px;
+      padding: 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.09);
+    }
+
+    .login-icon {
+      text-align: center;
+      font-size: 52px;
+      margin-bottom: 5px;
+    }
+
+    .login-card h1 {
+      text-align: center;
+      margin: 0;
+      font-size: 28px;
+      color: #263238;
+    }
+
+    .login-subtitle {
+      text-align: center;
+      color: #66757f;
+      margin: 8px 0 24px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin: 16px 0 7px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border: 1px solid #cfd8dc;
+      border-radius: 9px;
+    }
+
+    .login-btn {
+      width: 100%;
+      margin-top: 22px;
+      padding: 15px;
+      border: none;
+      border-radius: 9px;
+      background: #00a6a6;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .login-btn:hover {
+      background: #008d8d;
+    }
+
+    .login-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .login-error {
+      margin-top: 14px;
+      padding: 11px;
+      border-radius: 8px;
+      background: #fde8e8;
+      color: #a61b1b;
+      font-size: 14px;
+      display: none;
+    }
+
     .header {
       display: flex;
       justify-content: space-between;
@@ -37,7 +123,7 @@
       flex-wrap: wrap;
     }
 
-    h1 {
+    .header-left h1 {
       margin: 0;
       font-size: 32px;
       color: #263238;
@@ -48,12 +134,36 @@
       color: #66757f;
     }
 
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
     .count-box {
       background: white;
       border-radius: 12px;
       padding: 14px 18px;
       box-shadow: 0 4px 14px rgba(0,0,0,.08);
       font-weight: bold;
+    }
+
+    .signout-btn {
+      border: none;
+      border-radius: 9px;
+      padding: 12px 15px;
+      background: #263238;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .signed-in {
+      width: 100%;
+      font-size: 12px;
+      color: #7b8a8b;
+      text-align: right;
     }
 
     .requests {
@@ -151,7 +261,8 @@
       flex-wrap: wrap;
     }
 
-    button {
+    .claim-btn,
+    .done-btn {
       border: none;
       border-radius: 8px;
       padding: 11px 16px;
@@ -192,17 +303,67 @@
 
   <div class="top-bar"></div>
 
-  <main class="page">
+  <section id="loginView" class="login-wrap">
+
+    <div class="login-card">
+
+      <div class="login-icon">✋</div>
+
+      <h1>Raise Your Hand</h1>
+
+      <div class="login-subtitle">
+        Staff Sign In
+      </div>
+
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        autocomplete="email"
+        placeholder="Staff email"
+      >
+
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        autocomplete="current-password"
+        placeholder="Password"
+      >
+
+      <button id="loginButton" class="login-btn">
+        Sign In
+      </button>
+
+      <div id="loginError" class="login-error"></div>
+
+    </div>
+
+  </section>
+
+  <main id="dashboardView" class="page hidden">
 
     <div class="header">
-      <div>
+
+      <div class="header-left">
         <h1>✋ Raise Your Hand</h1>
         <div class="subtitle">Staff Support Dashboard</div>
       </div>
 
-      <div class="count-box">
-        Waiting: <span id="waitingCount">0</span>
+      <div class="header-actions">
+
+        <div class="count-box">
+          Waiting: <span id="waitingCount">0</span>
+        </div>
+
+        <button id="signOutButton" class="signout-btn">
+          Sign Out
+        </button>
+
+        <div id="signedInUser" class="signed-in"></div>
+
       </div>
+
     </div>
 
     <div id="requests" class="requests">
@@ -216,7 +377,9 @@
   </main>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+    import { initializeApp }
+      from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
     import {
       getFirestore,
@@ -227,7 +390,16 @@
       doc,
       updateDoc,
       serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+    }
+      from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged
+    }
+      from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCDnic_epgNwGm8XGNYosNpvfk8iaREXFk",
@@ -240,9 +412,34 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    const loginView = document.getElementById("loginView");
+    const dashboardView = document.getElementById("dashboardView");
+
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+
+    const loginButton = document.getElementById("loginButton");
+    const signOutButton = document.getElementById("signOutButton");
+
+    const loginError = document.getElementById("loginError");
+    const signedInUser = document.getElementById("signedInUser");
 
     const requestsContainer = document.getElementById("requests");
     const waitingCount = document.getElementById("waitingCount");
+
+    let unsubscribeRequests = null;
+
+    function showError(message) {
+      loginError.textContent = message;
+      loginError.style.display = "block";
+    }
+
+    function hideError() {
+      loginError.textContent = "";
+      loginError.style.display = "none";
+    }
 
     function formatTime(timestamp) {
       if (!timestamp) return "Just now";
@@ -260,139 +457,206 @@
         .replaceAll("'", "&#039;");
     }
 
-    const requestsQuery = query(
-      collection(db, "requests"),
-      orderBy("createdAt", "desc")
-    );
+    async function handleLogin() {
 
-    onSnapshot(requestsQuery, (snapshot) => {
+      hideError();
 
-      requestsContainer.innerHTML = "";
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
 
-      let waiting = 0;
-
-      if (snapshot.empty) {
-        requestsContainer.innerHTML =
-          '<div class="empty">No raised hands right now 🎉</div>';
-
-        waitingCount.textContent = "0";
+      if (!email || !password) {
+        showError("Enter your email and password.");
         return;
       }
 
-      snapshot.forEach((documentSnapshot) => {
+      loginButton.disabled = true;
+      loginButton.textContent = "Signing in...";
 
-        const request = documentSnapshot.data();
-        const requestId = documentSnapshot.id;
+      try {
 
-        if (request.status === "WAITING") {
-          waiting++;
-        }
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
 
-        const card = document.createElement("div");
+      } catch (error) {
 
-        const statusClass =
-          request.status === "CLAIMED"
-            ? "claimed"
-            : request.status === "DONE"
-            ? "done"
-            : "";
+        console.error(error);
+        showError("Unable to sign in. Check your email and password.");
 
-        card.className = `request-card ${statusClass}`;
+      } finally {
 
-        const claimedText = request.claimedBy
-          ? escapeHtml(request.claimedBy)
-          : "Not claimed";
+        loginButton.disabled = false;
+        loginButton.textContent = "Sign In";
 
-        card.innerHTML = `
-          <div class="card-top">
+      }
+    }
 
-            <div>
-              <div class="student-name">
-                ${escapeHtml(request.studentName)}
-              </div>
+    loginButton.addEventListener("click", handleLogin);
 
-              <div>
-                ${escapeHtml(request.location)}
-              </div>
-            </div>
+    passwordInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        handleLogin();
+      }
+    });
 
-            <span class="status ${request.status.toLowerCase()}">
-              ${escapeHtml(request.status)}
-            </span>
+    signOutButton.addEventListener("click", async () => {
+      await signOut(auth);
+    });
 
-          </div>
+    function startRequestListener() {
 
-          <div class="meta">
+      if (unsubscribeRequests) {
+        unsubscribeRequests();
+      }
 
-            <div class="meta-item">
-              <div class="meta-label">Help Needed</div>
-              ${escapeHtml(request.helpType)}
-            </div>
+      const requestsQuery = query(
+        collection(db, "requests"),
+        orderBy("createdAt", "desc")
+      );
 
-            <div class="meta-item">
-              <div class="meta-label">Contact</div>
-              ${escapeHtml(request.contactMethod)}
-            </div>
+      unsubscribeRequests = onSnapshot(
+        requestsQuery,
+        (snapshot) => {
 
-            <div class="meta-item">
-              <div class="meta-label">Submitted</div>
-              ${formatTime(request.createdAt)}
-            </div>
+          requestsContainer.innerHTML = "";
 
-            <div class="meta-item">
-              <div class="meta-label">Claimed By</div>
-              ${claimedText}
-            </div>
+          let waiting = 0;
 
-          </div>
+          if (snapshot.empty) {
 
-          ${
-            request.details
-              ? `
-                <div class="details">
-                  <strong>Student note:</strong><br>
-                  ${escapeHtml(request.details)}
-                </div>
-              `
-              : ""
+            requestsContainer.innerHTML =
+              '<div class="empty">No raised hands right now 🎉</div>';
+
+            waitingCount.textContent = "0";
+            return;
           }
 
-          <div class="actions">
+          snapshot.forEach((documentSnapshot) => {
 
-            ${
-              request.status === "WAITING"
-                ? `
-                  <button
-                    class="claim-btn"
-                    data-action="claim"
-                    data-id="${requestId}">
-                    Claim Request
-                  </button>
-                `
-                : ""
+            const request = documentSnapshot.data();
+            const requestId = documentSnapshot.id;
+
+            if (request.status === "WAITING") {
+              waiting++;
             }
 
-            ${
+            const card = document.createElement("div");
+
+            const statusClass =
               request.status === "CLAIMED"
-                ? `
-                  <button
-                    class="done-btn"
-                    data-action="done"
-                    data-id="${requestId}">
-                    Mark Done
-                  </button>
-                `
-                : ""
-            }
+                ? "claimed"
+                : request.status === "DONE"
+                ? "done"
+                : "";
 
-          </div>
-        `;
+            card.className = `request-card ${statusClass}`;
 
-        requestsContainer.appendChild(card);
-      });
+            const claimedText = request.claimedBy
+              ? escapeHtml(request.claimedBy)
+              : "Not claimed";
 
-      waitingCount.textContent = waiting;
-    });
+            card.innerHTML = `
+              <div class="card-top">
+
+                <div>
+                  <div class="student-name">
+                    ${escapeHtml(request.studentName)}
+                  </div>
+
+                  <div>
+                    ${escapeHtml(request.location)}
+                  </div>
+                </div>
+
+                <span class="status ${request.status.toLowerCase()}">
+                  ${escapeHtml(request.status)}
+                </span>
+
+              </div>
+
+              <div class="meta">
+
+                <div class="meta-item">
+                  <div class="meta-label">Help Needed</div>
+                  ${escapeHtml(request.helpType)}
+                </div>
+
+                <div class="meta-item">
+                  <div class="meta-label">Contact</div>
+                  ${escapeHtml(request.contactMethod)}
+                </div>
+
+                <div class="meta-item">
+                  <div class="meta-label">Submitted</div>
+                  ${formatTime(request.createdAt)}
+                </div>
+
+                <div class="meta-item">
+                  <div class="meta-label">Claimed By</div>
+                  ${claimedText}
+                </div>
+
+              </div>
+
+              ${
+                request.details
+                  ? `
+                    <div class="details">
+                      <strong>Student note:</strong><br>
+                      ${escapeHtml(request.details)}
+                    </div>
+                  `
+                  : ""
+              }
+
+              <div class="actions">
+
+                ${
+                  request.status === "WAITING"
+                    ? `
+                      <button
+                        class="claim-btn"
+                        data-action="claim"
+                        data-id="${requestId}">
+                        Claim Request
+                      </button>
+                    `
+                    : ""
+                }
+
+                ${
+                  request.status === "CLAIMED"
+                    ? `
+                      <button
+                        class="done-btn"
+                        data-action="done"
+                        data-id="${requestId}">
+                        Mark Done
+                      </button>
+                    `
+                    : ""
+                }
+
+              </div>
+            `;
+
+            requestsContainer.appendChild(card);
+          });
+
+          waitingCount.textContent = waiting;
+        },
+        (error) => {
+
+          console.error(error);
+
+          requestsContainer.innerHTML =
+            '<div class="empty">Unable to load requests.</div>';
+
+        }
+      );
+    }
 
     requestsContainer.addEventListener("click", async (event) => {
 
@@ -411,21 +675,54 @@
 
         if (!staffName || !staffName.trim()) return;
 
-        await updateDoc(doc(db, "requests", requestId), {
-          status: "CLAIMED",
-          claimedBy: staffName.trim(),
-          claimedAt: serverTimestamp()
-        });
+        await updateDoc(
+          doc(db, "requests", requestId),
+          {
+            status: "CLAIMED",
+            claimedBy: staffName.trim(),
+            claimedAt: serverTimestamp()
+          }
+        );
       }
 
       if (action === "done") {
 
-        await updateDoc(doc(db, "requests", requestId), {
-          status: "DONE",
-          completedAt: serverTimestamp()
-        });
+        await updateDoc(
+          doc(db, "requests", requestId),
+          {
+            status: "DONE",
+            completedAt: serverTimestamp()
+          }
+        );
       }
     });
+
+    onAuthStateChanged(auth, (user) => {
+
+      if (user) {
+
+        loginView.classList.add("hidden");
+        dashboardView.classList.remove("hidden");
+
+        signedInUser.textContent =
+          `Signed in as ${user.email}`;
+
+        startRequestListener();
+
+      } else {
+
+        dashboardView.classList.add("hidden");
+        loginView.classList.remove("hidden");
+
+        signedInUser.textContent = "";
+
+        if (unsubscribeRequests) {
+          unsubscribeRequests();
+          unsubscribeRequests = null;
+        }
+      }
+    });
+
   </script>
 
 </body>
