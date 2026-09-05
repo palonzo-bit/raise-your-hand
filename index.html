@@ -196,6 +196,72 @@
     </div>
 
   </main>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyCDnic_epgNwGm8XGNYosNpvfk8iaREXFk",
+    authDomain: "raise-your-hand-10653.firebaseapp.com",
+    projectId: "raise-your-hand-10653",
+    storageBucket: "raise-your-hand-10653.firebasestorage.app",
+    messagingSenderId: "154525540176",
+    appId: "1:154525540176:web:00e219db67fe4f0c315655"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const button = document.querySelector("button");
+
+  button.addEventListener("click", async () => {
+    const studentName = document.getElementById("studentName").value.trim();
+    const helpType = document.getElementById("helpType").value;
+    const location = document.getElementById("location").value;
+    const contactMethod = document.getElementById("contactMethod").value;
+    const details = document.getElementById("details").value.trim();
+
+    if (!studentName || !helpType || !location || !contactMethod) {
+      alert("Please complete all required fields.");
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Sending...";
+
+    try {
+      await addDoc(collection(db, "requests"), {
+        studentName,
+        helpType,
+        location,
+        contactMethod,
+        details,
+        status: "WAITING",
+        claimedBy: "",
+        createdAt: serverTimestamp()
+      });
+
+      alert("Your hand has been raised! A staff member will connect with you.");
+
+      document.getElementById("studentName").value = "";
+      document.getElementById("helpType").value = "";
+      document.getElementById("location").value = "";
+      document.getElementById("contactMethod").value = "";
+      document.getElementById("details").value = "";
+
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong. Please try again.");
+    }
+
+    button.disabled = false;
+    button.textContent = "✋ Raise My Hand";
+  });
+</script>
 </body>
 </html>
