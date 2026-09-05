@@ -6,9 +6,7 @@
   <title>Raise Your Hand | Staff Dashboard</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -20,12 +18,6 @@
     .top-bar {
       height: 10px;
       background: #00a6a6;
-    }
-
-    .page {
-      max-width: 1100px;
-      margin: auto;
-      padding: 28px 20px 50px;
     }
 
     .hidden {
@@ -52,14 +44,12 @@
     .login-icon {
       text-align: center;
       font-size: 52px;
-      margin-bottom: 5px;
     }
 
     .login-card h1 {
       text-align: center;
-      margin: 0;
+      margin: 5px 0 0;
       font-size: 28px;
-      color: #263238;
     }
 
     .login-subtitle {
@@ -82,26 +72,20 @@
       border-radius: 9px;
     }
 
-    .login-btn {
-      width: 100%;
-      margin-top: 22px;
-      padding: 15px;
+    button {
       border: none;
-      border-radius: 9px;
-      background: #00a6a6;
-      color: white;
-      font-size: 17px;
+      border-radius: 8px;
       font-weight: bold;
       cursor: pointer;
     }
 
-    .login-btn:hover {
-      background: #008d8d;
-    }
-
-    .login-btn:disabled {
-      opacity: .6;
-      cursor: not-allowed;
+    .login-btn {
+      width: 100%;
+      margin-top: 22px;
+      padding: 15px;
+      background: #00a6a6;
+      color: white;
+      font-size: 17px;
     }
 
     .login-error {
@@ -114,19 +98,24 @@
       display: none;
     }
 
+    .page {
+      max-width: 1200px;
+      margin: auto;
+      padding: 28px 20px 50px;
+    }
+
     .header {
       display: flex;
       justify-content: space-between;
-      align-items: end;
       gap: 20px;
-      margin-bottom: 24px;
+      align-items: center;
       flex-wrap: wrap;
+      margin-bottom: 25px;
     }
 
-    .header-left h1 {
+    h1 {
       margin: 0;
       font-size: 32px;
-      color: #263238;
     }
 
     .subtitle {
@@ -143,151 +132,138 @@
 
     .count-box {
       background: white;
-      border-radius: 12px;
-      padding: 14px 18px;
-      box-shadow: 0 4px 14px rgba(0,0,0,.08);
+      padding: 13px 16px;
+      border-radius: 10px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
       font-weight: bold;
     }
 
     .signout-btn {
-      border: none;
-      border-radius: 9px;
       padding: 12px 15px;
       background: #263238;
       color: white;
-      font-weight: bold;
-      cursor: pointer;
     }
 
     .signed-in {
       width: 100%;
+      text-align: right;
       font-size: 12px;
       color: #7b8a8b;
-      text-align: right;
     }
 
-    .requests {
+    .dashboard-grid {
       display: grid;
-      gap: 16px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      align-items: start;
     }
 
-    .request-card {
-      background: white;
+    .column {
+      background: #eef2f3;
       border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 4px 16px rgba(0,0,0,.08);
-      border-left: 7px solid #f0b429;
+      padding: 14px;
+      min-height: 250px;
     }
 
-    .request-card.claimed {
-      border-left-color: #3f8cff;
-    }
-
-    .request-card.done {
-      border-left-color: #4caf50;
-      opacity: .75;
-    }
-
-    .card-top {
+    .column-header {
       display: flex;
       justify-content: space-between;
-      gap: 15px;
-      align-items: start;
-      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 14px;
     }
 
-    .student-name {
-      font-size: 22px;
+    .column-title {
+      font-size: 18px;
       font-weight: bold;
-      margin-bottom: 5px;
     }
 
-    .status {
-      display: inline-block;
-      padding: 7px 11px;
+    .badge {
+      background: white;
+      padding: 5px 9px;
       border-radius: 999px;
       font-size: 12px;
       font-weight: bold;
     }
 
-    .status.waiting {
-      background: #fff3cd;
-      color: #856404;
-    }
-
-    .status.claimed {
-      background: #dbeafe;
-      color: #1e4f91;
-    }
-
-    .status.done {
-      background: #dff3e4;
-      color: #256c35;
-    }
-
-    .meta {
+    .requests {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 10px;
-      margin-top: 18px;
+      gap: 13px;
     }
 
-    .meta-item {
-      background: #f7f9fa;
-      border-radius: 9px;
-      padding: 11px;
+    .request-card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.07);
     }
 
-    .meta-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      color: #718086;
+    .waiting-card {
+      border-left: 6px solid #f0b429;
+    }
+
+    .claimed-card {
+      border-left: 6px solid #3f8cff;
+    }
+
+    .done-card {
+      border-left: 6px solid #4caf50;
+    }
+
+    .student-name {
+      font-size: 19px;
       font-weight: bold;
       margin-bottom: 4px;
     }
 
+    .location {
+      color: #66757f;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .info-row {
+      margin-bottom: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .info-label {
+      font-weight: bold;
+    }
+
     .details {
-      margin-top: 14px;
-      padding: 14px;
+      margin-top: 10px;
       background: #f7f9fa;
-      border-radius: 9px;
-      line-height: 1.45;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.4;
     }
 
     .actions {
-      margin-top: 16px;
       display: flex;
-      gap: 10px;
+      gap: 8px;
+      margin-top: 12px;
       flex-wrap: wrap;
-    }
-
-    .claim-btn,
-    .done-btn {
-      border: none;
-      border-radius: 8px;
-      padding: 11px 16px;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
     }
 
     .claim-btn {
       background: #3f8cff;
       color: white;
+      padding: 10px 13px;
     }
 
     .done-btn {
       background: #4caf50;
       color: white;
+      padding: 10px 13px;
     }
 
     .empty {
       text-align: center;
-      background: white;
-      padding: 40px 20px;
-      border-radius: 16px;
-      color: #66757f;
-      box-shadow: 0 4px 16px rgba(0,0,0,.06);
+      color: #7b8a8b;
+      padding: 25px 10px;
+      font-size: 14px;
     }
 
     .footer {
@@ -296,434 +272,466 @@
       margin-top: 30px;
       font-size: 13px;
     }
+
+    @media (max-width: 900px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .signed-in {
+        text-align: left;
+      }
+    }
   </style>
 </head>
 
 <body>
 
-  <div class="top-bar"></div>
+<div class="top-bar"></div>
 
-  <section id="loginView" class="login-wrap">
+<section id="loginView" class="login-wrap">
+  <div class="login-card">
 
-    <div class="login-card">
+    <div class="login-icon">✋</div>
+    <h1>Raise Your Hand</h1>
+    <div class="login-subtitle">Staff Sign In</div>
 
-      <div class="login-icon">✋</div>
+    <label for="email">Email</label>
+    <input id="email" type="email" autocomplete="email">
 
-      <h1>Raise Your Hand</h1>
+    <label for="password">Password</label>
+    <input id="password" type="password" autocomplete="current-password">
 
-      <div class="login-subtitle">
-        Staff Sign In
+    <button id="loginButton" class="login-btn">Sign In</button>
+
+    <div id="loginError" class="login-error"></div>
+  </div>
+</section>
+
+<main id="dashboardView" class="page hidden">
+
+  <div class="header">
+
+    <div>
+      <h1>✋ Raise Your Hand</h1>
+      <div class="subtitle">Staff Support Dashboard</div>
+    </div>
+
+    <div class="header-actions">
+      <div class="count-box">
+        Active: <span id="activeCount">0</span>
       </div>
 
-      <label for="email">Email</label>
-      <input
-        id="email"
-        type="email"
-        autocomplete="email"
-        placeholder="Staff email"
-      >
+      <button id="signOutButton" class="signout-btn">Sign Out</button>
 
-      <label for="password">Password</label>
-      <input
-        id="password"
-        type="password"
-        autocomplete="current-password"
-        placeholder="Password"
-      >
-
-      <button id="loginButton" class="login-btn">
-        Sign In
-      </button>
-
-      <div id="loginError" class="login-error"></div>
-
+      <div id="signedInUser" class="signed-in"></div>
     </div>
 
-  </section>
+  </div>
 
-  <main id="dashboardView" class="page hidden">
+  <div class="dashboard-grid">
 
-    <div class="header">
-
-      <div class="header-left">
-        <h1>✋ Raise Your Hand</h1>
-        <div class="subtitle">Staff Support Dashboard</div>
+    <section class="column">
+      <div class="column-header">
+        <div class="column-title">🟡 Waiting</div>
+        <div class="badge" id="waitingCount">0</div>
       </div>
 
-      <div class="header-actions">
+      <div id="waitingRequests" class="requests"></div>
+    </section>
 
-        <div class="count-box">
-          Waiting: <span id="waitingCount">0</span>
-        </div>
-
-        <button id="signOutButton" class="signout-btn">
-          Sign Out
-        </button>
-
-        <div id="signedInUser" class="signed-in"></div>
-
+    <section class="column">
+      <div class="column-header">
+        <div class="column-title">🔵 Claimed</div>
+        <div class="badge" id="claimedCount">0</div>
       </div>
 
+      <div id="claimedRequests" class="requests"></div>
+    </section>
+
+    <section class="column">
+      <div class="column-header">
+        <div class="column-title">🟢 Done</div>
+        <div class="badge" id="doneCount">0</div>
+      </div>
+
+      <div id="doneRequests" class="requests"></div>
+    </section>
+
+  </div>
+
+  <div class="footer">
+    Acceleration Academies • Student Support
+  </div>
+
+</main>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  query,
+  orderBy,
+  onSnapshot,
+  doc,
+  updateDoc,
+  serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCDnic_epgNwGm8XGNYosNpvfk8iaREXFk",
+  authDomain: "raise-your-hand-10653.firebaseapp.com",
+  projectId: "raise-your-hand-10653",
+  storageBucket: "raise-your-hand-10653.firebasestorage.app",
+  messagingSenderId: "154525540176",
+  appId: "1:154525540176:web:00e219db67fe4f0c315655"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+
+const loginView = document.getElementById("loginView");
+const dashboardView = document.getElementById("dashboardView");
+
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+
+const loginButton = document.getElementById("loginButton");
+const signOutButton = document.getElementById("signOutButton");
+
+const loginError = document.getElementById("loginError");
+const signedInUser = document.getElementById("signedInUser");
+
+const waitingRequests = document.getElementById("waitingRequests");
+const claimedRequests = document.getElementById("claimedRequests");
+const doneRequests = document.getElementById("doneRequests");
+
+const waitingCount = document.getElementById("waitingCount");
+const claimedCount = document.getElementById("claimedCount");
+const doneCount = document.getElementById("doneCount");
+const activeCount = document.getElementById("activeCount");
+
+let unsubscribeRequests = null;
+
+
+function escapeHtml(value = "") {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+
+function formatTime(timestamp) {
+  if (!timestamp) return "Just now";
+  return timestamp.toDate().toLocaleString();
+}
+
+
+function createCard(request, requestId) {
+
+  const card = document.createElement("div");
+
+  if (request.status === "WAITING") {
+    card.className = "request-card waiting-card";
+  }
+
+  if (request.status === "CLAIMED") {
+    card.className = "request-card claimed-card";
+  }
+
+  if (request.status === "DONE") {
+    card.className = "request-card done-card";
+  }
+
+  card.innerHTML = `
+
+    <div class="student-name">
+      ${escapeHtml(request.studentName)}
     </div>
 
-    <div id="requests" class="requests">
-      <div class="empty">Loading requests...</div>
+    <div class="location">
+      ${escapeHtml(request.location)}
     </div>
 
-    <div class="footer">
-      Acceleration Academies • Student Support
+    <div class="info-row">
+      <span class="info-label">Help:</span>
+      ${escapeHtml(request.helpType)}
     </div>
 
-  </main>
+    <div class="info-row">
+      <span class="info-label">Contact:</span>
+      ${escapeHtml(request.contactMethod)}
+    </div>
 
-  <script type="module">
+    <div class="info-row">
+      <span class="info-label">Submitted:</span>
+      ${formatTime(request.createdAt)}
+    </div>
 
-    import { initializeApp }
-      from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-
-    import {
-      getFirestore,
-      collection,
-      query,
-      orderBy,
-      onSnapshot,
-      doc,
-      updateDoc,
-      serverTimestamp
-    }
-      from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-    import {
-      getAuth,
-      signInWithEmailAndPassword,
-      signOut,
-      onAuthStateChanged
-    }
-      from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCDnic_epgNwGm8XGNYosNpvfk8iaREXFk",
-      authDomain: "raise-your-hand-10653.firebaseapp.com",
-      projectId: "raise-your-hand-10653",
-      storageBucket: "raise-your-hand-10653.firebasestorage.app",
-      messagingSenderId: "154525540176",
-      appId: "1:154525540176:web:00e219db67fe4f0c315655"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
-
-    const loginView = document.getElementById("loginView");
-    const dashboardView = document.getElementById("dashboardView");
-
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-
-    const loginButton = document.getElementById("loginButton");
-    const signOutButton = document.getElementById("signOutButton");
-
-    const loginError = document.getElementById("loginError");
-    const signedInUser = document.getElementById("signedInUser");
-
-    const requestsContainer = document.getElementById("requests");
-    const waitingCount = document.getElementById("waitingCount");
-
-    let unsubscribeRequests = null;
-
-    function showError(message) {
-      loginError.textContent = message;
-      loginError.style.display = "block";
+    ${
+      request.claimedBy
+        ? `
+          <div class="info-row">
+            <span class="info-label">Claimed by:</span>
+            ${escapeHtml(request.claimedBy)}
+          </div>
+        `
+        : ""
     }
 
-    function hideError() {
-      loginError.textContent = "";
-      loginError.style.display = "none";
+    ${
+      request.details
+        ? `
+          <div class="details">
+            ${escapeHtml(request.details)}
+          </div>
+        `
+        : ""
     }
 
-    function formatTime(timestamp) {
-      if (!timestamp) return "Just now";
+    <div class="actions">
 
-      const date = timestamp.toDate();
-      return date.toLocaleString();
-    }
-
-    function escapeHtml(value = "") {
-      return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
-    async function handleLogin() {
-
-      hideError();
-
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
-
-      if (!email || !password) {
-        showError("Enter your email and password.");
-        return;
+      ${
+        request.status === "WAITING"
+          ? `
+            <button
+              class="claim-btn"
+              data-action="claim"
+              data-id="${requestId}">
+              Claim Request
+            </button>
+          `
+          : ""
       }
 
-      loginButton.disabled = true;
-      loginButton.textContent = "Signing in...";
-
-      try {
-
-        await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
-      } catch (error) {
-
-        console.error(error);
-        showError("Unable to sign in. Check your email and password.");
-
-      } finally {
-
-        loginButton.disabled = false;
-        loginButton.textContent = "Sign In";
-
-      }
-    }
-
-    loginButton.addEventListener("click", handleLogin);
-
-    passwordInput.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
-        handleLogin();
-      }
-    });
-
-    signOutButton.addEventListener("click", async () => {
-      await signOut(auth);
-    });
-
-    function startRequestListener() {
-
-      if (unsubscribeRequests) {
-        unsubscribeRequests();
+      ${
+        request.status === "CLAIMED"
+          ? `
+            <button
+              class="done-btn"
+              data-action="done"
+              data-id="${requestId}">
+              Mark Done
+            </button>
+          `
+          : ""
       }
 
-      const requestsQuery = query(
-        collection(db, "requests"),
-        orderBy("createdAt", "desc")
-      );
+    </div>
+  `;
 
-      unsubscribeRequests = onSnapshot(
-        requestsQuery,
-        (snapshot) => {
+  return card;
+}
 
-          requestsContainer.innerHTML = "";
 
-          let waiting = 0;
+function startRequestListener() {
 
-          if (snapshot.empty) {
+  if (unsubscribeRequests) {
+    unsubscribeRequests();
+  }
 
-            requestsContainer.innerHTML =
-              '<div class="empty">No raised hands right now 🎉</div>';
+  const requestsQuery = query(
+    collection(db, "requests"),
+    orderBy("createdAt", "desc")
+  );
 
-            waitingCount.textContent = "0";
-            return;
-          }
+  unsubscribeRequests = onSnapshot(
+    requestsQuery,
+    (snapshot) => {
 
-          snapshot.forEach((documentSnapshot) => {
+      waitingRequests.innerHTML = "";
+      claimedRequests.innerHTML = "";
+      doneRequests.innerHTML = "";
 
-            const request = documentSnapshot.data();
-            const requestId = documentSnapshot.id;
+      let waiting = 0;
+      let claimed = 0;
+      let done = 0;
 
-            if (request.status === "WAITING") {
-              waiting++;
-            }
+      snapshot.forEach((documentSnapshot) => {
 
-            const card = document.createElement("div");
+        const request = documentSnapshot.data();
+        const requestId = documentSnapshot.id;
 
-            const statusClass =
-              request.status === "CLAIMED"
-                ? "claimed"
-                : request.status === "DONE"
-                ? "done"
-                : "";
+        const card = createCard(request, requestId);
 
-            card.className = `request-card ${statusClass}`;
-
-            const claimedText = request.claimedBy
-              ? escapeHtml(request.claimedBy)
-              : "Not claimed";
-
-            card.innerHTML = `
-              <div class="card-top">
-
-                <div>
-                  <div class="student-name">
-                    ${escapeHtml(request.studentName)}
-                  </div>
-
-                  <div>
-                    ${escapeHtml(request.location)}
-                  </div>
-                </div>
-
-                <span class="status ${request.status.toLowerCase()}">
-                  ${escapeHtml(request.status)}
-                </span>
-
-              </div>
-
-              <div class="meta">
-
-                <div class="meta-item">
-                  <div class="meta-label">Help Needed</div>
-                  ${escapeHtml(request.helpType)}
-                </div>
-
-                <div class="meta-item">
-                  <div class="meta-label">Contact</div>
-                  ${escapeHtml(request.contactMethod)}
-                </div>
-
-                <div class="meta-item">
-                  <div class="meta-label">Submitted</div>
-                  ${formatTime(request.createdAt)}
-                </div>
-
-                <div class="meta-item">
-                  <div class="meta-label">Claimed By</div>
-                  ${claimedText}
-                </div>
-
-              </div>
-
-              ${
-                request.details
-                  ? `
-                    <div class="details">
-                      <strong>Student note:</strong><br>
-                      ${escapeHtml(request.details)}
-                    </div>
-                  `
-                  : ""
-              }
-
-              <div class="actions">
-
-                ${
-                  request.status === "WAITING"
-                    ? `
-                      <button
-                        class="claim-btn"
-                        data-action="claim"
-                        data-id="${requestId}">
-                        Claim Request
-                      </button>
-                    `
-                    : ""
-                }
-
-                ${
-                  request.status === "CLAIMED"
-                    ? `
-                      <button
-                        class="done-btn"
-                        data-action="done"
-                        data-id="${requestId}">
-                        Mark Done
-                      </button>
-                    `
-                    : ""
-                }
-
-              </div>
-            `;
-
-            requestsContainer.appendChild(card);
-          });
-
-          waitingCount.textContent = waiting;
-        },
-        (error) => {
-
-          console.error(error);
-
-          requestsContainer.innerHTML =
-            '<div class="empty">Unable to load requests.</div>';
-
+        if (request.status === "WAITING") {
+          waiting++;
+          waitingRequests.appendChild(card);
         }
-      );
-    }
 
-    requestsContainer.addEventListener("click", async (event) => {
-
-      const button = event.target.closest("button");
-
-      if (!button) return;
-
-      const requestId = button.dataset.id;
-      const action = button.dataset.action;
-
-      if (action === "claim") {
-
-        const staffName = prompt(
-          "Enter your name so the team knows who claimed this request:"
-        );
-
-        if (!staffName || !staffName.trim()) return;
-
-        await updateDoc(
-          doc(db, "requests", requestId),
-          {
-            status: "CLAIMED",
-            claimedBy: staffName.trim(),
-            claimedAt: serverTimestamp()
-          }
-        );
-      }
-
-      if (action === "done") {
-
-        await updateDoc(
-          doc(db, "requests", requestId),
-          {
-            status: "DONE",
-            completedAt: serverTimestamp()
-          }
-        );
-      }
-    });
-
-    onAuthStateChanged(auth, (user) => {
-
-      if (user) {
-
-        loginView.classList.add("hidden");
-        dashboardView.classList.remove("hidden");
-
-        signedInUser.textContent =
-          `Signed in as ${user.email}`;
-
-        startRequestListener();
-
-      } else {
-
-        dashboardView.classList.add("hidden");
-        loginView.classList.remove("hidden");
-
-        signedInUser.textContent = "";
-
-        if (unsubscribeRequests) {
-          unsubscribeRequests();
-          unsubscribeRequests = null;
+        if (request.status === "CLAIMED") {
+          claimed++;
+          claimedRequests.appendChild(card);
         }
-      }
-    });
 
-  </script>
+        if (request.status === "DONE") {
+          done++;
+          doneRequests.appendChild(card);
+        }
+      });
+
+
+      if (waiting === 0) {
+        waitingRequests.innerHTML =
+          '<div class="empty">No students waiting 🎉</div>';
+      }
+
+      if (claimed === 0) {
+        claimedRequests.innerHTML =
+          '<div class="empty">No claimed requests</div>';
+      }
+
+      if (done === 0) {
+        doneRequests.innerHTML =
+          '<div class="empty">No completed requests yet</div>';
+      }
+
+
+      waitingCount.textContent = waiting;
+      claimedCount.textContent = claimed;
+      doneCount.textContent = done;
+
+      activeCount.textContent = waiting + claimed;
+    }
+  );
+}
+
+
+async function handleLogin() {
+
+  loginError.style.display = "none";
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+
+  if (!email || !password) {
+    loginError.textContent = "Enter your email and password.";
+    loginError.style.display = "block";
+    return;
+  }
+
+  try {
+
+    await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    loginError.textContent =
+      "Unable to sign in. Check your email and password.";
+
+    loginError.style.display = "block";
+  }
+}
+
+
+loginButton.addEventListener("click", handleLogin);
+
+passwordInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    handleLogin();
+  }
+});
+
+
+signOutButton.addEventListener("click", async () => {
+  await signOut(auth);
+});
+
+
+document.addEventListener("click", async (event) => {
+
+  const button = event.target.closest("button");
+
+  if (!button) return;
+
+  const requestId = button.dataset.id;
+  const action = button.dataset.action;
+
+  if (!requestId || !action) return;
+
+
+  if (action === "claim") {
+
+    const staffName = prompt(
+      "Enter your name so the team knows who claimed this request:"
+    );
+
+    if (!staffName || !staffName.trim()) return;
+
+    await updateDoc(
+      doc(db, "requests", requestId),
+      {
+        status: "CLAIMED",
+        claimedBy: staffName.trim(),
+        claimedAt: serverTimestamp()
+      }
+    );
+  }
+
+
+  if (action === "done") {
+
+    await updateDoc(
+      doc(db, "requests", requestId),
+      {
+        status: "DONE",
+        completedAt: serverTimestamp()
+      }
+    );
+  }
+});
+
+
+onAuthStateChanged(auth, (user) => {
+
+  if (user) {
+
+    loginView.classList.add("hidden");
+    dashboardView.classList.remove("hidden");
+
+    signedInUser.textContent =
+      `Signed in as ${user.email}`;
+
+    startRequestListener();
+
+  } else {
+
+    dashboardView.classList.add("hidden");
+    loginView.classList.remove("hidden");
+
+    if (unsubscribeRequests) {
+      unsubscribeRequests();
+      unsubscribeRequests = null;
+    }
+  }
+});
+
+</script>
 
 </body>
 </html>
